@@ -1,8 +1,11 @@
 <div class="container">
     <div class="cal-select">
-        <select [formControl]="type">
-            <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
-        </select>
+        <div class="select-wrap">
+          <select [formControl]="type">
+              <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+          </select>
+          <i class="icon color-white fas fa-chevron-down"></i>
+        </div>
     </div>
     <div class="form-container" [ngSwitch]="type.value">
         <ng-container *ngSwitchCase="'pipCalculator'">

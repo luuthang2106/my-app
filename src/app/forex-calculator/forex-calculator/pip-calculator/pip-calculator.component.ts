@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { combineLatest } from 'rxjs';
-import { startWith, switchMapTo, tap } from 'rxjs/operators';
+import { map, startWith, switchMapTo, tap } from 'rxjs/operators';
 import { ForexCalculatorService } from '../../forex-calculator.service';
 
 @Component({
@@ -20,6 +20,11 @@ export class PipCalculatorComponent implements OnInit {
   currencyPairCtrl = new FormControl(this.currencyPairOptions[0].value)
   tradeSizeCtrl = new FormControl(100000)
   currencyConversionPriceCtrl = new FormControl(0)
+
+  currencyIcon$ = this.accountCurrencyCtrl.valueChanges.pipe(
+    startWith(this.accountCurrencyCtrl.value),
+    map(val => this.service.getCurrencyIcons(val))
+  )
 
   constructor(
     private service: ForexCalculatorService

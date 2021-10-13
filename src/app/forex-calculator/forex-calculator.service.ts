@@ -66,7 +66,7 @@ export class ForexCalculatorService {
     return [
       {
         label: "AUD",
-        value: "AUD"
+        value: "AUD",
       },
       {
         label: "USD",
@@ -404,5 +404,16 @@ export class ForexCalculatorService {
         value: "XBR/USD"
       },
     ]
+  }
+
+   getCurrencyIcons(unit: string): string {
+    switch (unit) {
+      case 'USD':
+        return 'fas fa-dollar-sign';
+      case 'EUR':
+        return 'fas fa-euro-sign';
+      default:
+        return 'fas fa-coins'
+    }
   }
 }

@@ -1,19 +1,20 @@
 .container {
   display: block;
-  padding: 2rem;
+  padding: 2rem 4rem;
   border-radius: 1rem;
   background-color: #ffffff;
-  box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 3px rgba(197, 136, 136, 0.2);
 }
 .cal-select {
   width: 250px;
 }
 .form-field-label {
-  font-size: 18px;
+  font-size: 16px;
   display: block;
   margin: 0.7rem 0;
   color: gray;
 }
+
 select,
 input {
   box-sizing: border-box;
@@ -21,8 +22,42 @@ input {
   height: 3rem;
   width: 100%;
   font-size: 1.3rem;
-  padding: 0 0.4rem;
+  padding: .4rem 1rem;
+  outline: none;
+  border: none;
   border-radius: 8px;
+}
+
+.cal-select select {
+  background: #c12d2d;
+  color: #fff;
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-child {
+  background: #fff;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.select-wrap .icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input {
+  background: #f7f5f5;
 }
 
 .form-container {
@@ -42,6 +77,23 @@ input {
 .form-field-right {
   margin-left: 1rem;
 }
-.result {
-  font-size: 2rem;
+.result span {
+  padding-left: .8rem;
+  font-size: 1.6rem;
+
+}
+
+.result i {
+  font-size: 1.4rem;
+  color: gray
+}
+
+.color-white {
+  color: #fff;
+}
+.color-red {
+  color: #c12d2d
+}
+.color-text {
+  color: #333 !important;
 }
