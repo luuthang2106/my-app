@@ -1,0 +1,29 @@
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Account Currency</label>
+        <select [formControl]="accountCurrencyCtrl">
+            <option *ngFor="let option of accountCurrencyOptions" [value]="option.value">{{option.label}}</option>
+        </select>
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Currency Pair</label>
+        <select [formControl]="currencyPairCtrl">
+            <option *ngFor="let option of currencyPairOptions" [value]="option.value">{{option.label}}</option>
+        </select>
+    </div>
+</div>
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Trade Size(In units)</label>
+        <input [formControl]="tradeSizeCtrl" type="number">
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Currency Conversion Price(
+            {{accountCurrencyCtrl.value}}/{{currencyPairCtrl.value.split('/')[1]}})</label>
+        <input [formControl]="currencyConversionPriceCtrl" type="number">
+    </div>
+</div>
+<label class="form-field-label">PIP Value ({{accountCurrencyCtrl.value}})</label>
+<div class="result">
+    {{pipValue}}
+</div>

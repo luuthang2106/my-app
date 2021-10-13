@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="cal-select">
+        <select [formControl]="type">
+            <option *ngFor="let option of options" [value]="option.value">{{option.label}}</option>
+        </select>
+    </div>
+    <div class="form-container" [ngSwitch]="type.value">
+        <ng-container *ngSwitchCase="'pipCalculator'">
+            <app-pip-calculator></app-pip-calculator>
+        </ng-container>
+        <ng-container *ngSwitchCase="'currencyConverter'">
+            <app-currency-converter></app-currency-converter>
+        </ng-container>
+        <ng-container *ngSwitchCase="'marginCalculator'">
+            <app-margin-calculator></app-margin-calculator>
+        </ng-container>
+        <ng-container *ngSwitchCase="'swapsCalculator'">
+            <app-swaps-calculator></app-swaps-calculator>
+        </ng-container>
+        <ng-container *ngSwitchCase="'profitCalculator'">
+            <app-profit-calculator></app-profit-calculator>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            not found
+        </ng-container>
+    </div>
+</div>
