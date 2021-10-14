@@ -1,1 +1,35 @@
-<p>currency-converter works!</p>
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Currency From</label>
+        <div class="select-wrap select-child">
+            <select [formControl]="currencyFromCtrl">
+                <option *ngFor="let option of currencies" [value]="option.value">{{option.label}}</option>
+            </select>
+            <i class="icon color-red fas fa-chevron-down"></i>
+        </div>
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Currency To</label>
+        <div class="select-wrap select-child">
+            <select [formControl]="currencyToCtrl">
+                <option *ngFor="let option of currencies" [value]="option.value">{{option.label}}</option>
+            </select>
+            <i class="icon color-red fas fa-chevron-down"></i>
+        </div>
+    </div>
+</div>
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Amount</label>
+        <input [formControl]="amountCtrl" type="number">
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Currency Conversion Price(
+            {{currencyFromCtrl.value}}/{{currencyToCtrl.value}})</label>
+        <input [formControl]="currencyConversionPriceCtrl" [attr.disabled]="true" type="number">
+    </div>
+</div>
+<label class="form-field-label">Conversion Value({{currencyToCtrl.value}}) </label>
+<div class="result">
+    <i [class]="currencyIcon$ | async"></i> <span class="color-red">{{result}}</span>
+</div>

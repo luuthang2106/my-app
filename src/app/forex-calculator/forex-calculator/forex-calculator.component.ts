@@ -21,9 +21,6 @@ export class ForexCalculatorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.type.valueChanges.subscribe(value => {
-      console.log(value)
-    })
   }
 
 }

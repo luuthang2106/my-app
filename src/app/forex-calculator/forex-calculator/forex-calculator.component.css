@@ -97,3 +97,20 @@ input {
 .color-text {
   color: #333 !important;
 }
+
+.tab-header {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 70px;
+}
+.tab-header div {
+  margin-top: 1rem;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gray;
+}
+.tab-header div.active {
+  background-color: #c12d2d;
+}

@@ -1,1 +1,93 @@
-<p>margin-calculator works!</p>
+<div class="tab-header color-white">
+    <div [ngClass]="tab ? 'active' : ''" (click)="changeTab(true)">
+        Currency Pairs
+    </div>
+    <div [ngClass]="!tab ? 'active' : ''" (click)="changeTab(false)">
+        Shares
+    </div>
+</div>
+<ng-container *ngIf="tab; else anotherTab">
+    <div class="form-container">
+        <div class="form-field-left">
+            <label class="form-field-label">Account Currency</label>
+            <div class="select-wrap select-child">
+                <select [formControl]="accountCurrencyCtrl">
+                    <option *ngFor="let option of currencies" [value]="option.value">{{option.label}}</option>
+                </select>
+                <i class="icon color-red fas fa-chevron-down"></i>
+            </div>
+        </div>
+        <div class="form-field-right">
+            <label class="form-field-label">Leverage</label>
+            <div class="select-wrap select-child">
+                <select [formControl]="leverageCtrl">
+                    <option *ngFor="let option of leverageOptions" [value]="option.value">{{option.label}}</option>
+                </select>
+                <i class="icon color-red fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="form-field-left">
+            <label class="form-field-label">Currency Pair</label>
+            <div class="select-wrap select-child">
+                <select [formControl]="currencyPairCtrl">
+                    <option *ngFor="let option of currencyPairOptions" [value]="option.value">{{option.label}}</option>
+                </select>
+                <i class="icon color-red fas fa-chevron-down"></i>
+            </div>
+        </div>
+        <div class="form-field-right">
+            <label class="form-field-label">Trade Size(In units)</label>
+            <input [formControl]="tradeSizeCtrl" type="number">
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="form-field-left">
+            <label class="form-field-label">Currency Price</label>
+            <input [formControl]="currencyPriceCtrl" [attr.disabled]="true" type="number">
+        </div>
+        <div class="form-field-right">
+        </div>
+    </div>
+    <label class="form-field-label color-text">Required Margin ({{accountCurrencyCtrl.value}})</label>
+    <div class="result">
+        <i [class]="currencyIcon$ | async"></i> <span class="color-red">{{result}}</span>
+    </div>
+</ng-container>
+<ng-template #anotherTab>
+    <div class="form-container">
+        <div class="form-field-left">
+            <label class="form-field-label">Shares</label>
+            <div class="select-wrap select-child">
+                <select [formControl]="sharesCtrl">
+                    <option *ngFor="let option of shareOptions" [value]="option">{{option}}</option>
+                </select>
+                <i class="icon color-red fas fa-chevron-down"></i>
+            </div>
+        </div>
+        <div class="form-field-right">
+            <label class="form-field-label">Leverage</label>
+            <div class="select-wrap select-child">
+                <select [formControl]="leverageCtrl">
+                    <option *ngFor="let option of shareLeverageOptions" [value]="option.value">{{option.label}}</option>
+                </select>
+                <i class="icon color-red fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="form-field-left">
+            <label class="form-field-label">Share Price</label>
+            <input [formControl]="sharePriceCtrl" [attr.disabled]="true" type="number">
+        </div>
+        <div class="form-field-right">
+            <label class="form-field-label">Trade Size(In units)</label>
+            <input [formControl]="tradeSizeCtrl" type="number">
+        </div>
+    </div>
+    <label class="form-field-label color-text">Required Margin ({{sharesCtrl.value}})</label>
+    <div class="result">
+        <span class="color-red">{{result}}</span>
+    </div>
+</ng-template>

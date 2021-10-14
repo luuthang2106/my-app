@@ -26,7 +26,7 @@
     <div class="form-field-right">
         <label class="form-field-label">Currency Conversion Price(
             {{accountCurrencyCtrl.value}}/{{currencyPairCtrl.value.split('/')[1]}})</label>
-        <input [formControl]="currencyConversionPriceCtrl" type="number">
+        <input [formControl]="currencyConversionPriceCtrl" [attr.disabled]="true" type="number">
     </div>
 </div>
 <label class="form-field-label color-text">PIP Value ({{accountCurrencyCtrl.value}})</label>
