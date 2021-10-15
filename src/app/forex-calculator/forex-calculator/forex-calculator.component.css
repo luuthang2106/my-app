@@ -51,6 +51,7 @@ input {
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .select-wrap .currency-icon {
@@ -58,6 +59,7 @@ input {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
 
