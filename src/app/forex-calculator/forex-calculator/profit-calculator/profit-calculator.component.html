@@ -1,1 +1,50 @@
-<p>profit-calculator works!</p>
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Currency pair</label>
+        <div class="select-wrap select-child">
+          <select [formControl]="currencyPairCtrl">
+            <option *ngFor="let option of currencyPairOptions" [value]="option.value">{{option.label}}</option>
+          </select>
+          <i class="icon color-red fas fa-chevron-down"></i>
+        </div>
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Buy or Sell</label>
+        <div class="select-wrap select-child">
+          <select [formControl]="buyOrSellCtrl">
+              <option [ngValue]="true">Buy</option>
+              <option [ngValue]="false">Sell</option>
+          </select>
+          <i class="icon color-red fas fa-chevron-down"></i>
+        </div>
+    </div>
+</div>
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Open price</label>
+        <input [formControl]="openPriceCtrl"  type="number">
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Close price</label>
+        <input [formControl]="closePriceCtrl"  type="number">
+    </div>
+</div>
+<div class="form-container">
+    <div class="form-field-left">
+        <label class="form-field-label">Trade size(lots)</label>
+        <input [formControl]="tradeSizeCtrl" type="number">
+    </div>
+    <div class="form-field-right">
+        <label class="form-field-label">Deposit currency</label>
+            <div class="select-wrap select-child">
+                <select [formControl]="depositCurrencyCtrl">
+                    <option *ngFor="let option of currencies" [value]="option.value">{{option.label}}</option>
+                </select>
+                <i class="icon color-red fas fa-chevron-down"></i>
+              </div>
+    </div>
+</div>
+<label class="form-field-label color-text">Profit</label>
+<div class="result">
+    <i [class]="currencyIcon$ | async"></i> <span class="color-red">{{result}}</span>
+  </div>

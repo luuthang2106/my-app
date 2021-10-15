@@ -52,6 +52,9 @@ export class ForexCalculatorService {
   constructor(
     private http: HttpClient
   ) { }
+  yesterday = new Date((new Date()).valueOf() - 1000 * 60 * 60 * 24)
+
+
   //base: EUR
   // get rates from fixer.io
   getRates(): Observable<any> {
@@ -65,6 +68,34 @@ export class ForexCalculatorService {
       map((response: any) => {
         return response[0]
       }))
+  }
+  // Get the daily open, high, low, and close (OHLC) for the entire forex markets.
+  getDailyOpenClosePrice() {
+    return this.http.get(`https://api.polygon.io/v2/aggs/grouped/locale/global/market/fx/${this.yesterday.toISOString().slice(0, 10)}?adjusted=true&apiKey=ifjppKMJMIjcI3N5vsiwQ6Eo32rahGVf`).pipe(
+      map((response: any) => {
+        //array [
+        //    {
+        // T: "C:NOKUSD"
+        // c: 0.118687
+        // h: 0.118723
+        // l: 0.11808048
+        // n: 15699
+        // o: 0.118191
+        // t: 1634342399999
+        // v: 15699
+        // }
+        // ]
+        return response.results
+      }),
+      share()
+    )
+  }
+  calculateProfit(openPrice, closePrice, tradeSize, isBuy, exchange) {
+    if (isBuy) {
+      return (closePrice - openPrice) * (exchange) * (tradeSize * 100000)
+    } else {
+      return (openPrice - closePrice) * (exchange) * (tradeSize * 100000)
+    }
   }
   calculateShareMargin(sharePrice, leverage, lotSize) {
     return ((lotSize * sharePrice * leverage) / 100).toFixed(2)
@@ -221,10 +252,10 @@ export class ForexCalculatorService {
       //   label: "Swaps Calculator",
       //   value: "swapsCalculator"
       // },
-      // {
-      //   label: "Profit Calculator",
-      //   value: "profitCalculator"
-      // }
+      {
+        label: "Profit Calculator",
+        value: "profitCalculator"
+      }
     ]
   }
 
