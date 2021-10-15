@@ -1,8 +1,8 @@
 <div class="tab-header color-white">
-    <div [ngClass]="tab ? 'active' : ''" (click)="changeTab(true)">
+    <div class="pointer" [ngClass]="tab ? 'active' : ''" (click)="changeTab(true)">
         Currency Pairs
     </div>
-    <div [ngClass]="!tab ? 'active' : ''" (click)="changeTab(false)">
+    <div class="pointer" [ngClass]="!tab ? 'active' : ''" (click)="changeTab(false)">
         Shares
     </div>
 </div>
@@ -55,7 +55,7 @@
     </div>
     <label class="form-field-label color-text">Required Margin ({{accountCurrencyCtrl.value}})</label>
     <div class="result">
-      <app-currency-icon [type]="accountCurrencyCtrl.value" color="black"></app-currency-icon>
+      <app-currency-icon [type]="accountCurrencyCtrl.value" color="red"></app-currency-icon>
       <span class="color-red">{{result}}</span>
     </div>
 </ng-container>

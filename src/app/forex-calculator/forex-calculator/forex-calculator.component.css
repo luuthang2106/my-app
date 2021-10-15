@@ -27,13 +27,30 @@ input {
   border: none;
   border-radius: 8px;
 }
+
+select {
+  cursor: pointer;
+}
+
+.cal-select option {
+  background: rgba(201, 33, 39, 0.5);
+  color: #fff;
+}
+
 .currency-ctl select {
   padding-left: 3rem;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .cal-select select {
   background: #c92127;
   color: #fff;
+  font-size: 1rem;
 }
 
 .select-wrap {
@@ -60,13 +77,6 @@ input {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-}
-
-
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
 }
 
 input {
@@ -126,4 +136,8 @@ input {
 }
 .tab-header div.active {
   background-color: #c92127;
+}
+
+.pointer {
+  cursor: pointer;
 }

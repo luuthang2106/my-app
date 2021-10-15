@@ -10,7 +10,7 @@ interface Option {
 
 @Injectable()
 export class ForexCalculatorService {
-  private accessApiKey = "c19cbb58fdd1f24847fed4403ac52c21";
+  private accessApiKey = "575b1d7cda7ce4bb317ed07e29b4acc3";
 
   ONE_PIP_DENOMINATOR = {
     CZK: 0.001,
@@ -90,6 +90,8 @@ export class ForexCalculatorService {
       share()
     )
   }
+
+  // This is formula for calcute the Profit
   calculateProfit(openPrice, closePrice, tradeSize, isBuy, exchange) {
     if (isBuy) {
       return (closePrice - openPrice) * (exchange) * (tradeSize * 100000)
@@ -97,9 +99,12 @@ export class ForexCalculatorService {
       return (openPrice - closePrice) * (exchange) * (tradeSize * 100000)
     }
   }
+  // This is formula for calcute the Share Margin
   calculateShareMargin(sharePrice, leverage, lotSize) {
     return ((lotSize * sharePrice * leverage) / 100).toFixed(2)
   }
+
+  // This is formula for calcute the Margin
   calculateMargin(leverage, exchange, tradeSize) {
     return (tradeSize * exchange / parseInt(leverage)).toFixed(2)
   }
@@ -127,7 +132,7 @@ export class ForexCalculatorService {
     }
   }
 
-  // calculate pip value
+  // This is formula for calcute the Pip
   calculatePipValue(accountCurrency, currencyPair, tradeLots, currencyExchange) {
     const onePip = this.ONE_PIP_DENOMINATOR[currencyPair.split('/')[1]] || this.ONE_PIP_NUMERATOR[currencyPair.split('/')[0]] || 0.0001;
     if (accountCurrency === currencyPair.split('/')[1]) {
