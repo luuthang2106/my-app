@@ -538,16 +538,4 @@ export class ForexCalculatorService {
       },
     ]
   }
-
-  // map to icon when change currency
-  getCurrencyIcons(unit: string): string {
-    switch (unit) {
-      case 'USD':
-        return 'fas fa-dollar-sign';
-      case 'EUR':
-        return 'fas fa-euro-sign';
-      default:
-        return 'fas fa-coins'
-    }
-  }
 }

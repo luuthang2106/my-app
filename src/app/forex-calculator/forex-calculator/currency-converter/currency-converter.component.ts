@@ -24,10 +24,6 @@ export class CurrencyConverterComponent implements OnInit, OnDestroy {
   rates: any
   result: any = ""
 
-  currencyIcon$ = this.currencyToCtrl.valueChanges.pipe(
-    startWith(this.currencyToCtrl.value),
-    map(val => this.service.getCurrencyIcons(val))
-  )
   constructor(
     private service: ForexCalculatorService
   ) { }

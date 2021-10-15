@@ -16,7 +16,7 @@
                 </select>
                 <i class="icon color-red fas fa-chevron-down"></i>
                 <div class="currency-icon">
-                  <app-currency-icon [type]="currencyIcon$ | async" color="red"></app-currency-icon>
+                  <app-currency-icon [type]="accountCurrencyCtrl.value" color="red"></app-currency-icon>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
     </div>
     <label class="form-field-label color-text">Required Margin ({{accountCurrencyCtrl.value}})</label>
     <div class="result">
-      <app-currency-icon [type]="currencyIcon$ | async" color="black"></app-currency-icon>
+      <app-currency-icon [type]="accountCurrencyCtrl.value" color="black"></app-currency-icon>
       <span class="color-red">{{result}}</span>
     </div>
 </ng-container>

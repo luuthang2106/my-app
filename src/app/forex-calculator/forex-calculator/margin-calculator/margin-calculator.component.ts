@@ -35,10 +35,6 @@ export class MarginCalculatorComponent implements OnInit, OnDestroy {
   sharesCtrl = new FormControl(this.shareOptions[0])
   sharePriceCtrl = new FormControl(0)
 
-  currencyIcon$ = this.accountCurrencyCtrl.valueChanges.pipe(
-    startWith(this.accountCurrencyCtrl.value),
-    map(val => this.service.getCurrencyIcons(val))
-  )
   constructor(
     private service: ForexCalculatorService
   ) { }

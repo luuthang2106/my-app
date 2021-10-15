@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ForexCalculatorService } from '../../forex-calculator.service';
 import { FormControl } from '@angular/forms';
-import { map, startWith, switchMapTo, takeUntil, tap } from 'rxjs/operators';
+import { map, startWith, switchMap, switchMapTo, takeUntil, tap } from 'rxjs/operators';
 import { combineLatest, Subject } from 'rxjs';
 
 @Component({
@@ -24,10 +24,6 @@ export class ProfitCalculatorComponent implements OnInit {
   tradeSizeCtrl = new FormControl(1)
   depositCurrencyCtrl = new FormControl(this.currencies[0].value)
 
-  currencyIcon$ = this.depositCurrencyCtrl.valueChanges.pipe(
-    startWith(this.depositCurrencyCtrl.value),
-    map(val => this.service.getCurrencyIcons(val))
-  )
   currencyToCtrl: any;
   constructor(
     private service: ForexCalculatorService
@@ -43,16 +39,19 @@ export class ProfitCalculatorComponent implements OnInit {
     })
 
 
-    this.service.getRates().pipe(
-      tap(rates => {
-        this.rates = rates;
-      }),
-      switchMapTo(combineLatest([
+    combineLatest([
         this.currencyPairCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
         this.buyOrSellCtrl.valueChanges.pipe(startWith(this.buyOrSellCtrl.value)),
         this.tradeSizeCtrl.valueChanges.pipe(startWith(this.tradeSizeCtrl.value)),
         this.depositCurrencyCtrl.valueChanges.pipe(startWith(this.depositCurrencyCtrl.value)),
-      ])),
+      ])
+    .pipe(
+      switchMap(values =>  this.service.getRates().pipe(
+        tap(rates => {
+          this.rates = rates;
+        }),
+        map(_ => values)
+      )),
       takeUntil(this.destroy$)
     )
       .subscribe(([currencyPair, buyOrSell, tradeSize, depositCurrency]) => {

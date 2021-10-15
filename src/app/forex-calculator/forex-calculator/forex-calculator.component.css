@@ -3,7 +3,7 @@
   padding: 2rem 4rem;
   border-radius: 1rem;
   background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(197, 136, 136, 0.2);
+  box-shadow: 0 1px 10px #f5f9fb;
 }
 .cal-select {
   width: 250px;

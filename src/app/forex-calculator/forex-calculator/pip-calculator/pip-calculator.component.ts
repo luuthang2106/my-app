@@ -22,14 +22,6 @@ export class PipCalculatorComponent implements OnInit, OnDestroy {
   tradeSizeCtrl = new FormControl(100000)
   currencyConversionPriceCtrl = new FormControl(0)
 
-  currencyIcon$ = this.accountCurrencyCtrl.valueChanges.pipe(
-    startWith(this.accountCurrencyCtrl.value),
-    map(val => {
-
-      return ['USD', 'EUR', 'GBP', 'JPY'].includes(val) ? val : 'EUR';
-    })
-  )
-
   constructor(
     private service: ForexCalculatorService
   ) { }
