@@ -27,6 +27,28 @@ export class ForexCalculatorService {
     XNG: 0.001,
     XTI: 0.1,
   };
+
+
+  // use in calculate share magin
+  shareLeverage_5 = ["SHELL", "BP", "GSK", "HSBC", "RIO", "STDCHART", "RBS", "LLOYDS", "VODAPHONE", "CISCO", "STARBUCKS", "INTEL", "APPLE", "MICROSOFT", "COMCAST", "ADOBE", "GOOGLE", "AMAZON", "EXXON", "CHEVRON", "MCDONALDS", "BOA", "HOMEDEPOT", "WALMART", "COCACOLA", "AMEX", "JPMORGAN", "VERIZON", "CATERPILLAR", "IBM", "BOEING", "COCACOLA", "AMEX", "JPMORGAN", "VERIZON", "CATERPILLAR", "IBM", "BOEING"]
+  // use in calculate share magin
+  shareLeverage_10 = ["NVIDIA", "PEPSI", "NETFLIX", "FACEBOOK", "VISA", "NIKE", "AT&T", "MASTERCARD", "ORACLE", "WELLSFARGO", "PFIZER", "SAP", "GOLDMAN", "DISNEY", "DAIMLER", "BAYER", "BASF", "ALLIANZ", "VOLKSWAGON", "BMW", "ADIDAS", "DBANK", "SIEMENS"]
+  // use in calculate share magin
+  shareLeverageMargin = [
+    {
+      label: "1:5",
+      value: 20
+    },
+    {
+      label: "1:10",
+      value: 10
+    },
+    {
+      label: "1:20",
+      value: 5
+    },
+  ]
+
   constructor(
     private http: HttpClient
   ) { }
@@ -34,17 +56,15 @@ export class ForexCalculatorService {
   // get rates from fixer.io
   getRates(): Observable<any> {
     return this.http.get(`http://data.fixer.io/api/latest?access_key=${this.accessApiKey}`).pipe(
-      map((response: any) => response.rates),
-      share())
+      map((response: any) => response.rates)
+    )
   }
   // products from https://www.fpmarkets.com/ca/forex-calculator/ (share margin calculator)
   getProducts(): Observable<any> {
-    //[{"ALLIANZ.r":"196.48","BASF.r":"65.22","BAYER.r":"47.8","BMW.r":"86.37","BP.r":"3.585","COCACOLA.r":"54.68","DAIMLER.r":"83.09","DBANK.r":"11.07","DISNEY.r":"174.73","EXXON.r":"62.05","GOLDMAN.r":"390.5","GSK.r":"14.018","HSBC.r":"4.265","IBM.r":"143.82","INTEL.r":"53.91","JPMORGAN.r":"163.47","LLOYDS.r":"0.485","MASTERCARD.r":"344.18","MCDONALDS.r":"244.66","MICROSOFT.r":"302","NETFLIX.r":"634.52","NIKE.r":"157.32","NVIDIA.r":"216.51","RBS.r":"2.3","RIO.r":"51.2","SIEMENS.r":"141.24","STARBUCKS.r":"112.32","VISA.r":"225.07"}]
     return this.http.get(`https://calc.fpmarkets.com.cy/js/mt5products.json`).pipe(
       map((response: any) => {
         return response[0]
-      }),
-      share())
+      }))
   }
   calculateShareMargin(sharePrice, leverage, lotSize) {
     return ((lotSize * sharePrice * leverage) / 100).toFixed(2)
@@ -75,6 +95,7 @@ export class ForexCalculatorService {
       return (amount * exchange).toFixed(2)
     }
   }
+
   // calculate pip value
   calculatePipValue(accountCurrency, currencyPair, tradeLots, currencyExchange) {
     const onePip = this.ONE_PIP_DENOMINATOR[currencyPair.split('/')[1]] || this.ONE_PIP_NUMERATOR[currencyPair.split('/')[0]] || 0.0001;
@@ -101,25 +122,6 @@ export class ForexCalculatorService {
     }
   }
 
-  // use in calculate share magin
-  shareLeverage_5 = ["SHELL", "BP", "GSK", "HSBC", "RIO", "STDCHART", "RBS", "LLOYDS", "VODAPHONE", "CISCO", "STARBUCKS", "INTEL", "APPLE", "MICROSOFT", "COMCAST", "ADOBE", "GOOGLE", "AMAZON", "EXXON", "CHEVRON", "MCDONALDS", "BOA", "HOMEDEPOT", "WALMART", "COCACOLA", "AMEX", "JPMORGAN", "VERIZON", "CATERPILLAR", "IBM", "BOEING", "COCACOLA", "AMEX", "JPMORGAN", "VERIZON", "CATERPILLAR", "IBM", "BOEING"]
-  // use in calculate share magin
-  shareLeverage_10 = ["NVIDIA", "PEPSI", "NETFLIX", "FACEBOOK", "VISA", "NIKE", "AT&T", "MASTERCARD", "ORACLE", "WELLSFARGO", "PFIZER", "SAP", "GOLDMAN", "DISNEY", "DAIMLER", "BAYER", "BASF", "ALLIANZ", "VOLKSWAGON", "BMW", "ADIDAS", "DBANK", "SIEMENS"]
-  // use in calculate share magin
-  shareLeverageMargin = [
-    {
-      label: "1:5",
-      value: 20
-    },
-    {
-      label: "1:10",
-      value: 10
-    },
-    {
-      label: "1:20",
-      value: 5
-    },
-  ]
   // use in calculate magin
   get leverageMargin(): Option[] {
     return [
@@ -215,14 +217,14 @@ export class ForexCalculatorService {
         label: "Margin Calculator",
         value: "marginCalculator"
       },
-      {
-        label: "Swaps Calculator",
-        value: "swapsCalculator"
-      },
-      {
-        label: "Profit Calculator",
-        value: "profitCalculator"
-      }
+      // {
+      //   label: "Swaps Calculator",
+      //   value: "swapsCalculator"
+      // },
+      // {
+      //   label: "Profit Calculator",
+      //   value: "profitCalculator"
+      // }
     ]
   }
 

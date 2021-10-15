@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest } from 'rxjs';
-import { tap, switchMapTo, startWith, map } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { tap, switchMapTo, startWith, map, takeUntil } from 'rxjs/operators';
 import { ForexCalculatorService } from '../../forex-calculator.service';
 
 @Component({
@@ -9,7 +9,8 @@ import { ForexCalculatorService } from '../../forex-calculator.service';
   templateUrl: './currency-converter.component.html',
   styleUrls: ['./currency-converter.component.css', '../forex-calculator.component.css']
 })
-export class CurrencyConverterComponent implements OnInit {
+export class CurrencyConverterComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
   //options for select
   currencies = this.service.getAccountCurrencyOptions
 
@@ -41,7 +42,8 @@ export class CurrencyConverterComponent implements OnInit {
         this.currencyFromCtrl.valueChanges.pipe(startWith(this.currencyFromCtrl.value)),
         this.currencyToCtrl.valueChanges.pipe(startWith(this.currencyToCtrl.value)),
         this.amountCtrl.valueChanges.pipe(startWith(this.amountCtrl.value))
-      ]))
+      ])),
+      takeUntil(this.destroy$)
     )
       .subscribe(([currencyFrom, currencyTo, amount]) => {
         const currencyExchange = this.rates[currencyTo] / this.rates[currencyFrom]
@@ -51,4 +53,8 @@ export class CurrencyConverterComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

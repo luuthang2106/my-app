@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { combineLatest } from 'rxjs';
-import { tap, switchMapTo, startWith, map } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { tap, switchMapTo, startWith, map, takeUntil } from 'rxjs/operators';
 import { ForexCalculatorService } from '../../forex-calculator.service';
 
 @Component({
@@ -9,7 +9,9 @@ import { ForexCalculatorService } from '../../forex-calculator.service';
   templateUrl: './margin-calculator.component.html',
   styleUrls: ['./margin-calculator.component.css', '../forex-calculator.component.css']
 })
-export class MarginCalculatorComponent implements OnInit {
+export class MarginCalculatorComponent implements OnInit, OnDestroy {
+  destroy$ = new Subject();
+
   // options for select in form
   currencies = this.service.getAccountCurrencyOptions
   currencyPairOptions = this.service.getCurrencyPair
@@ -55,19 +57,20 @@ export class MarginCalculatorComponent implements OnInit {
         this.currencyPairCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
         this.tradeSizeCtrl.valueChanges.pipe(startWith(this.tradeSizeCtrl.value)),
         this.sharesCtrl.valueChanges.pipe(startWith(this.sharesCtrl.value)),
-      ]))
+      ])),
+      takeUntil(this.destroy$)
     )
       .subscribe(([accountCurrency, leverage, currencyPair, tradeSize, shares]) => {
         // margin
         const currencyPrice = this.rates[accountCurrency] / this.rates[currencyPair.split('/')[0]]
         this.currencyPriceCtrl.setValue(this.rates[currencyPair.split('/')[1]] / this.rates[currencyPair.split('/')[0]]);
 
-        // shareMargin 
+        // shareMargin
         const sharePrice = this.getShareValue(shares)
         this.sharePriceCtrl.setValue(sharePrice)
 
         if (this.tab) {
-          // for margin 
+          // for margin
           this.result = this.service.calculateMargin(leverage, currencyPrice, tradeSize)
         } else {
           // for share margin
@@ -93,5 +96,10 @@ export class MarginCalculatorComponent implements OnInit {
       }
     }
     return 0
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
