@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { combineLatest, Subject } from 'rxjs';
-import { tap, switchMapTo, startWith, map, takeUntil } from 'rxjs/operators';
+import { tap, switchMapTo, startWith, map, takeUntil, switchMap } from 'rxjs/operators';
 import { ForexCalculatorService } from '../../forex-calculator.service';
 
 @Component({
@@ -43,17 +43,20 @@ export class MarginCalculatorComponent implements OnInit, OnDestroy {
     this.service.getProducts().subscribe(productsObject => {
       this.products = productsObject
     })
-    this.service.getRates().pipe(
-      tap(rates => {
-        this.rates = rates;
-      }),
-      switchMapTo(combineLatest([
-        this.accountCurrencyCtrl.valueChanges.pipe(startWith(this.accountCurrencyCtrl.value)),
-        this.leverageCtrl.valueChanges.pipe(startWith(this.leverageCtrl.value)),
-        this.currencyPairCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
-        this.tradeSizeCtrl.valueChanges.pipe(startWith(this.tradeSizeCtrl.value)),
-        this.sharesCtrl.valueChanges.pipe(startWith(this.sharesCtrl.value)),
-      ])),
+    combineLatest([
+      this.accountCurrencyCtrl.valueChanges.pipe(startWith(this.accountCurrencyCtrl.value)),
+      this.leverageCtrl.valueChanges.pipe(startWith(this.leverageCtrl.value)),
+      this.currencyPairCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
+      this.tradeSizeCtrl.valueChanges.pipe(startWith(this.tradeSizeCtrl.value)),
+      this.sharesCtrl.valueChanges.pipe(startWith(this.sharesCtrl.value)),
+    ])
+    .pipe(
+      switchMap(values => this.service.getRates().pipe(
+        tap(rates => {
+          this.rates = rates;
+        }),
+        map(_ => values)
+      )),
       takeUntil(this.destroy$)
     )
       .subscribe(([accountCurrency, leverage, currencyPair, tradeSize, shares]) => {

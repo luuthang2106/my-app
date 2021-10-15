@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ForexCalculatorService } from '../../forex-calculator.service';
 import { FormControl } from '@angular/forms';
 import { map, startWith, switchMap, switchMapTo, takeUntil, tap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { combineLatest, Subject } from 'rxjs';
   templateUrl: './profit-calculator.component.html',
   styleUrls: ['./profit-calculator.component.css', '../forex-calculator.component.css']
 })
-export class ProfitCalculatorComponent implements OnInit {
+export class ProfitCalculatorComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   currencyPairOptions = this.service.getCurrencyPair
   currencies = this.service.getAccountCurrencyOptions
@@ -40,11 +40,29 @@ export class ProfitCalculatorComponent implements OnInit {
 
 
     combineLatest([
-        this.currencyPairCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
-        this.buyOrSellCtrl.valueChanges.pipe(startWith(this.buyOrSellCtrl.value)),
-        this.tradeSizeCtrl.valueChanges.pipe(startWith(this.tradeSizeCtrl.value)),
-        this.depositCurrencyCtrl.valueChanges.pipe(startWith(this.depositCurrencyCtrl.value)),
+        this.openPriceCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
+        this.closePriceCtrl.valueChanges.pipe(startWith(this.buyOrSellCtrl.value)),
       ])
+    .pipe(
+      switchMap(values =>  this.service.getRates().pipe(
+        tap(rates => {
+          this.rates = rates;
+        }),
+        map(_ => values)
+      )),
+      takeUntil(this.destroy$)
+    )
+      .subscribe(([openPrice, closePrice]) => {
+        const currencyExchange = this.rates[this.depositCurrencyCtrl.value] / this.rates[this.currencyPairCtrl.value.split('/')[0]]
+        this.result = this.service.calculateProfit(openPrice, closePrice, this.tradeSizeCtrl.value, this.buyOrSellCtrl.value, currencyExchange)
+      })
+
+    combineLatest([
+      this.currencyPairCtrl.valueChanges.pipe(startWith(this.currencyPairCtrl.value)),
+      this.buyOrSellCtrl.valueChanges.pipe(startWith(this.buyOrSellCtrl.value)),
+      this.tradeSizeCtrl.valueChanges.pipe(startWith(this.tradeSizeCtrl.value)),
+      this.depositCurrencyCtrl.valueChanges.pipe(startWith(this.depositCurrencyCtrl.value)),
+    ])
     .pipe(
       switchMap(values =>  this.service.getRates().pipe(
         tap(rates => {
@@ -73,5 +91,11 @@ export class ProfitCalculatorComponent implements OnInit {
       this.openPriceCtrl.setValue(0)
       this.closePriceCtrl.setValue(0)
     }
+  }
+
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
