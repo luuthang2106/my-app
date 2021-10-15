@@ -24,7 +24,10 @@ export class PipCalculatorComponent implements OnInit, OnDestroy {
 
   currencyIcon$ = this.accountCurrencyCtrl.valueChanges.pipe(
     startWith(this.accountCurrencyCtrl.value),
-    map(val => this.service.getCurrencyIcons(val))
+    map(val => {
+
+      return ['USD', 'EUR', 'GBP', 'JPY'].includes(val) ? val : 'EUR';
+    })
   )
 
   constructor(

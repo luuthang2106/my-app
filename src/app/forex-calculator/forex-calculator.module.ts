@@ -7,6 +7,7 @@ import { CurrencyConverterComponent } from './forex-calculator/currency-converte
 import { MarginCalculatorComponent } from './forex-calculator/margin-calculator/margin-calculator.component';
 import { SwapsCalculatorComponent } from './forex-calculator/swaps-calculator/swaps-calculator.component';
 import { ProfitCalculatorComponent } from './forex-calculator/profit-calculator/profit-calculator.component';
+import { CurrencyIconComponent } from './currency-icon/currency-icon.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -16,7 +17,9 @@ import { HttpClientModule } from '@angular/common/http';
     CurrencyConverterComponent,
     MarginCalculatorComponent,
     SwapsCalculatorComponent,
-    ProfitCalculatorComponent],
+    ProfitCalculatorComponent,
+    CurrencyIconComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,

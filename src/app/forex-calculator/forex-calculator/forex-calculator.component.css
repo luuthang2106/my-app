@@ -27,9 +27,12 @@ input {
   border: none;
   border-radius: 8px;
 }
+.currency-ctl select {
+  padding-left: 3rem;
+}
 
 .cal-select select {
-  background: #c12d2d;
+  background: #c92127;
   color: #fff;
 }
 
@@ -50,6 +53,14 @@ input {
   transform: translateY(-50%);
 }
 
+.select-wrap .currency-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -57,7 +68,7 @@ select {
 }
 
 input {
-  background: #f7f5f5;
+  background: #f8f8f8;
 }
 
 .form-container {
@@ -83,16 +94,16 @@ input {
 
 }
 
-.result i {
-  font-size: 1.4rem;
-  color: gray
+.result {
+  display: flex;
+  align-items: center;
 }
 
 .color-white {
   color: #fff;
 }
 .color-red {
-  color: #c12d2d
+  color: #c92127
 }
 .color-text {
   color: #333 !important;
@@ -112,5 +123,5 @@ input {
   background-color: gray;
 }
 .tab-header div.active {
-  background-color: #c12d2d;
+  background-color: #c92127;
 }

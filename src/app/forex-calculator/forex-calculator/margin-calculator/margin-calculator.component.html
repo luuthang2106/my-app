@@ -10,16 +10,19 @@
     <div class="form-container">
         <div class="form-field-left">
             <label class="form-field-label">Account Currency</label>
-            <div class="select-wrap select-child">
+            <div class="select-wrap select-child currency-ctl">
                 <select [formControl]="accountCurrencyCtrl">
                     <option *ngFor="let option of currencies" [value]="option.value">{{option.label}}</option>
                 </select>
                 <i class="icon color-red fas fa-chevron-down"></i>
+                <div class="currency-icon">
+                  <app-currency-icon [type]="currencyIcon$ | async" color="red"></app-currency-icon>
+                </div>
             </div>
         </div>
         <div class="form-field-right">
             <label class="form-field-label">Leverage</label>
-            <div class="select-wrap select-child">
+            <div class="select-wrap select-child ">
                 <select [formControl]="leverageCtrl">
                     <option *ngFor="let option of leverageOptions" [value]="option.value">{{option.label}}</option>
                 </select>
@@ -52,7 +55,8 @@
     </div>
     <label class="form-field-label color-text">Required Margin ({{accountCurrencyCtrl.value}})</label>
     <div class="result">
-        <i [class]="currencyIcon$ | async"></i> <span class="color-red">{{result}}</span>
+      <app-currency-icon [type]="currencyIcon$ | async" color="black"></app-currency-icon>
+      <span class="color-red">{{result}}</span>
     </div>
 </ng-container>
 <ng-template #anotherTab>

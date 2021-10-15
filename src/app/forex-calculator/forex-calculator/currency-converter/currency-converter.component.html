@@ -10,11 +10,14 @@
     </div>
     <div class="form-field-right">
         <label class="form-field-label">Currency To</label>
-        <div class="select-wrap select-child">
+        <div class="select-wrap select-child currency-ctl">
             <select [formControl]="currencyToCtrl">
                 <option *ngFor="let option of currencies" [value]="option.value">{{option.label}}</option>
             </select>
             <i class="icon color-red fas fa-chevron-down"></i>
+            <div class="currency-icon">
+              <app-currency-icon [type]="currencyIcon$ | async" color="red"></app-currency-icon>
+            </div>
         </div>
     </div>
 </div>
@@ -31,5 +34,6 @@
 </div>
 <label class="form-field-label">Conversion Value({{currencyToCtrl.value}}) </label>
 <div class="result">
-    <i [class]="currencyIcon$ | async"></i> <span class="color-red">{{result}}</span>
+  <app-currency-icon [type]="currencyIcon$ | async" color="black"></app-currency-icon>
+  <span class="color-red">{{result}}</span>
 </div>
